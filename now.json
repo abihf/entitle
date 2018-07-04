@@ -10,5 +10,18 @@
       "max": 1
     }
   },
-  "type": "docker"
+  "env": {
+    "GITHUB_APP_ID": "1437",
+    "GITHUB_APP_KEY": "@entitle-private-key",
+    "GITHUB_HOOK_SECRET": "@entitle-hook-secret"
+  },
+  "type": "docker",
+  "files": [
+    "Gopkg.toml",
+    "Gopkg.lock",
+    "main.go",
+    "github.go",
+    "handler.go",
+    "Dockerfile"
+  ]
 }
