@@ -1,5 +1,5 @@
 FROM golang:alpine
-EXPOSE 80
+EXPOSE 8080
 
 RUN apk add -U --no-cache curl && \
  curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
