@@ -1,0 +1,8 @@
+success:
+  regex: "$\\[(FEATURE|FIX)\\]\\s"
+  messages:
+    - Ready to go!
+warning:
+  regex: "WIP"
+  messages:
+    - Wait
