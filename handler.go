@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
+	"math/rand"
 	"net/http"
 	"os"
 
@@ -41,10 +43,20 @@ func handleHook(w http.ResponseWriter, r *http.Request) {
 
 func handlePullRequest(ctx context.Context, payload *github.PullRequestEvent) error {
 	action := payload.GetAction()
-	if !(action == "synchronized" || action == "opened" || action == "edited" || action == "reopened") {
+	if !(action == "synchronize" || action == "opened" || action == "edited" || action == "reopened") {
 		return nil
 	}
 
+	go func() {
+		err := checkTitle(context.Background(), payload)
+		if err != nil {
+			log.Printf("ERROR: %v", err)
+		}
+	}()
+	return nil
+}
+
+func checkTitle(ctx context.Context, payload *github.PullRequestEvent) error {
 	client, err := createGithubClient(payload.GetInstallation().GetID())
 	if err != nil {
 		return err
@@ -65,6 +77,18 @@ func handlePullRequest(ctx context.Context, payload *github.PullRequestEvent) er
 		return err
 	}
 
-	fmt.Printf("Got %s %s\n%s\n\n", title, commit, configStr)
-	return nil
+	cfg, err := parseConfig(configStr)
+	if err != nil {
+		return err
+	}
+
+	state, messages := cfg.checkTitle(title)
+	msgIdx := rand.Intn(len(messages))
+	status := &github.RepoStatus{
+		Context:     github.String("PR Title"),
+		State:       &state,
+		Description: &messages[msgIdx],
+	}
+	_, _, err = client.Repositories.CreateStatus(ctx, repoOwner, repoName, commit, status)
+	return err
 }

@@ -11,7 +11,7 @@
     }
   },
   "env": {
-    "GITHUB_APP_ID": "1437",
+    "GITHUB_APP_ID": "14374",
     "GITHUB_APP_KEY": "@entitle-private-key",
     "GITHUB_HOOK_SECRET": "@entitle-hook-secret"
   },
@@ -21,6 +21,7 @@
     "Gopkg.lock",
     "main.go",
     "github.go",
+    "config.go",
     "handler.go",
     "Dockerfile"
   ]
