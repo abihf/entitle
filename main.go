@@ -4,12 +4,16 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 func main() {
 	// stupid hack to make
-	go keepAlive()
+	keepAliveURL := os.Getenv("KEEP_ALIVE_URL")
+	if keepAliveURL != "" {
+		go keepAlive(keepAliveURL)
+	}
 
 	http.HandleFunc("/webhook", handleHook)
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
@@ -18,9 +22,9 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-func keepAlive() {
+func keepAlive(url string) {
 	for {
 		time.Sleep(10 * time.Second)
-		http.Get("https://entitle.now.sh/ping")
+		http.Get(url)
 	}
 }
