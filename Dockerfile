@@ -1,7 +1,7 @@
 FROM golang:alpine
 EXPOSE 8080
 
-RUN apk add -U --no-cache curl && \
+RUN apk add -U --no-cache curl git && \
  curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 
 WORKDIR /go/src/github.com/abihf/entitle/
