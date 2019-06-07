@@ -11,6 +11,7 @@
     }
   },
   "env": {
+    "KEEP_ALIVE_URL": "https://entitle.now.sh/ping",
     "GITHUB_APP_ID": "14374",
     "GITHUB_APP_KEY": "@entitle-private-key",
     "GITHUB_HOOK_SECRET": "@entitle-hook-secret"
