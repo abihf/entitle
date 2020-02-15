@@ -1,4 +1,4 @@
-package entitle
+package webhook
 
 import (
 	"context"
@@ -11,8 +11,8 @@ import (
 	"github.com/google/go-github/v29/github"
 )
 
-// HandleWebhook from github
-func HandleWebhook(w http.ResponseWriter, r *http.Request) {
+// Handle webhook from github
+func Handle(w http.ResponseWriter, r *http.Request) {
 	rawPayload, err := github.ValidatePayload(r, []byte(os.Getenv("GITHUB_HOOK_SECRET")))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusForbidden)

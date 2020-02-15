@@ -1,4 +1,4 @@
-package entitle
+package webhook
 
 import (
 	"log"

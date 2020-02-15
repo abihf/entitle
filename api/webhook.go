@@ -3,9 +3,9 @@ package api
 import (
 	"net/http"
 
-	"github.com/abihf/entitle"
+	"github.com/abihf/entitle/webhook"
 )
 
 func HandleWebhook(w http.ResponseWriter, r *http.Request) {
-	entitle.HandleWebhook(w, r)
+	webhook.Handle(w, r)
 }
