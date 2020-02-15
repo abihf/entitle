@@ -3,7 +3,6 @@ package webhook
 import (
 	"context"
 	"fmt"
-	"log"
 	"math/rand"
 	"net/http"
 	"os"
@@ -27,6 +26,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if hookType == "pull_request" {
+		fmt.Println("Handling pull request")
 		err = handlePullRequest(r.Context(), payload.(*github.PullRequestEvent))
 	} else if hookType == "ping" {
 		// do nothing
@@ -48,13 +48,7 @@ func handlePullRequest(ctx context.Context, payload *github.PullRequestEvent) er
 		return nil
 	}
 
-	go func() {
-		err := checkTitle(context.Background(), payload)
-		if err != nil {
-			log.Printf("ERROR: %v", err)
-		}
-	}()
-	return nil
+	return checkTitle(ctx, payload)
 }
 
 func checkTitle(ctx context.Context, payload *github.PullRequestEvent) error {
