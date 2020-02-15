@@ -1,4 +1,4 @@
-package main
+package entitle
 
 import (
 	"net/http"
@@ -7,16 +7,16 @@ import (
 	"strings"
 
 	"github.com/bradleyfalzon/ghinstallation"
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v29/github"
 )
 
 var (
 	githubKey      = strings.TrimSpace(strings.Replace(os.Getenv("GITHUB_APP_KEY"), "#", "\n", -1))
-	githubAppID, _ = strconv.Atoi(os.Getenv("GITHUB_APP_ID"))
+	githubAppID, _ = strconv.ParseInt(os.Getenv("GITHUB_APP_ID"), 10, 64)
 )
 
 func createGithubClient(installationID int64) (*github.Client, error) {
-	itr, err := ghinstallation.New(http.DefaultTransport, githubAppID, int(installationID), []byte(githubKey))
+	itr, err := ghinstallation.New(http.DefaultTransport, githubAppID, installationID, []byte(githubKey))
 	if err != nil {
 		return nil, err
 	}

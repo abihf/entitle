@@ -1,4 +1,4 @@
-package main
+package entitle
 
 import (
 	"context"
@@ -8,10 +8,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/google/go-github/github"
+	"github.com/google/go-github/v29/github"
 )
 
-func handleHook(w http.ResponseWriter, r *http.Request) {
+// HandleWebhook from github
+func HandleWebhook(w http.ResponseWriter, r *http.Request) {
 	rawPayload, err := github.ValidatePayload(r, []byte(os.Getenv("GITHUB_HOOK_SECRET")))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusForbidden)
@@ -67,7 +68,7 @@ func checkTitle(ctx context.Context, payload *github.PullRequestEvent) error {
 	title := payload.GetPullRequest().GetTitle()
 	commit := payload.GetPullRequest().GetHead().GetSHA()
 
-	content, _, _, err := client.Repositories.GetContents(ctx, repoOwner, repoName, ".github/entitle.yml", nil)
+	content, _, _, err := client.Repositories.GetContents(ctx, repoOwner, repoName, ".entitle.yml", nil)
 	if err != nil {
 		return err
 	}

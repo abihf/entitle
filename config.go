@@ -1,4 +1,4 @@
-package main
+package entitle
 
 import (
 	"log"
@@ -8,14 +8,14 @@ import (
 )
 
 type config struct {
-	Success *statusConfig
-	Warning *statusConfig
-	Error   *statusConfig
+	Valid   *statusConfig `json:"valid"`
+	Invalid *statusConfig `json:"invalid"`
+	WIP     *statusConfig `json:"wip"`
 }
 
 type statusConfig struct {
-	Regex    string
-	Messages []string
+	Regex    string   `json:"regex"`
+	Messages []string `json:"messages"`
 }
 
 func parseConfig(str string) (*config, error) {
@@ -26,15 +26,15 @@ func parseConfig(str string) (*config, error) {
 
 func (c *config) checkTitle(title string) (status string, messages []string) {
 
-	if c.Warning != nil && c.Warning.matchTitle(title, false) {
+	if c.WIP != nil && c.WIP.matchTitle(title, false) {
 		status = "pending"
-		messages = c.Warning.Messages
-	} else if c.Success != nil && c.Success.matchTitle(title, false) {
+		messages = c.WIP.Messages
+	} else if c.Valid != nil && c.Valid.matchTitle(title, false) {
 		status = "success"
-		messages = c.Success.Messages
+		messages = c.Valid.Messages
 	} else {
 		status = "error"
-		messages = c.Error.Messages
+		messages = c.Invalid.Messages
 	}
 
 	return
