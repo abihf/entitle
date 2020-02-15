@@ -68,7 +68,8 @@ func checkTitle(ctx context.Context, payload *github.PullRequestEvent) error {
 	title := payload.GetPullRequest().GetTitle()
 	commit := payload.GetPullRequest().GetHead().GetSHA()
 
-	content, _, _, err := client.Repositories.GetContents(ctx, repoOwner, repoName, ".entitle.yml", nil)
+	fmt.Printf("Get config for %s/%s:%s\n", repoOwner, repoName, commit)
+	content, _, _, err := client.Repositories.GetContents(ctx, repoOwner, repoName, ".entitle.yml", &github.RepositoryContentGetOptions{Ref: commit})
 	if err != nil {
 		return err
 	}
@@ -78,11 +79,13 @@ func checkTitle(ctx context.Context, payload *github.PullRequestEvent) error {
 		return err
 	}
 
+	fmt.Println("Parsing config")
 	cfg, err := parseConfig(configStr)
 	if err != nil {
 		return err
 	}
 
+	fmt.Println("Checking title")
 	state, messages := cfg.checkTitle(title)
 	msgIdx := rand.Intn(len(messages))
 	status := &github.RepoStatus{
