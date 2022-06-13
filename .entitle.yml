@@ -1,11 +1,11 @@
-success:
+valid:
   regex: "^(feat|fix|chore):"
   messages:
     - Ready to go!
-warning:
+wip:
   regex: "WIP"
   messages:
     - Wait
-error:
+invalid:
   messages:
     - Invalid title
