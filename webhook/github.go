@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/bradleyfalzon/ghinstallation"
-	"github.com/google/go-github/v29/github"
+	"github.com/bradleyfalzon/ghinstallation/v2"
+	"github.com/google/go-github/v41/github"
 )
 
 var (
