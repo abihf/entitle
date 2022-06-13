@@ -1,7 +1,6 @@
 {
   "name": "entitle",
   "alias": [
-    "entitle.now.sh",
     "entitle.hafs.in"
   ],
   "env": {

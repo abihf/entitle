@@ -1,5 +1,5 @@
 success:
-  regex: "^\\[(FEATURE|FIX)\\]\\s"
+  regex: "^(feat|fix|chore):"
   messages:
     - Ready to go!
 warning:

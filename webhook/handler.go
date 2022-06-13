@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/google/go-github/v29/github"
+	"github.com/google/go-github/v41/github"
 )
 
 // Handle webhook from github
